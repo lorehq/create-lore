@@ -27,9 +27,9 @@ if (!name) {
 }
 
 // If the name contains a path separator, treat it as a custom path.
-// Otherwise, create a lore-{name}/ directory in the current folder.
+// Otherwise, create a {name}/ directory in the current folder.
 const isPath = name.includes('/') || name.includes(path.sep);
-const targetDir = path.resolve(isPath ? name : `./lore-${name}`);
+const targetDir = path.resolve(isPath ? name : `./${name}`);
 
 if (fs.existsSync(targetDir)) {
   console.error(`Error: ${targetDir} already exists`);
