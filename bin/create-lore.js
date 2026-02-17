@@ -56,7 +56,8 @@ try {
 
 // -- Write .lore-config --
 const projectName = isPath ? path.basename(targetDir) : name;
-const config = { name: projectName, created: new Date().toISOString().split('T')[0] };
+const templateConfig = JSON.parse(fs.readFileSync(path.join(targetDir, '.lore-config'), 'utf8'));
+const config = { name: projectName, version: templateConfig.version || '0.0.0', created: new Date().toISOString().split('T')[0] };
 fs.writeFileSync(path.join(targetDir, '.lore-config'), JSON.stringify(config, null, 2) + '\n');
 
 // -- Initialize git --
