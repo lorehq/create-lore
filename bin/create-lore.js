@@ -66,10 +66,10 @@ const config = {
 fs.writeFileSync(path.join(targetDir, '.lore-config'), JSON.stringify(config, null, 2) + '\n');
 
 // -- Initialize git --
-execSync('git init', { cwd: targetDir, stdio: 'pipe' });
+execSync('git init -b main', { cwd: targetDir, stdio: 'pipe' });
 
 // -- Done --
-console.log(`\nCreated ${targetDir}`);
+console.log(`\nCreated ${name}`);
 console.log(`\nNext steps:`);
-console.log(`  cd ${targetDir}`);
+console.log(`  cd ${name}`);
 console.log(`  git add -A && git commit -m "Init Lore"`);
