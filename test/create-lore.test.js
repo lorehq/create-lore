@@ -77,6 +77,31 @@ describe('create-lore', () => {
     cleanup();
   });
 
+  it('has OpenCode plugins when template provides them', () => {
+    if (!fs.existsSync(path.join(TEMPLATE, '.opencode/plugins'))) return;
+
+    run(OUTPUT);
+    assert.ok(fs.existsSync(path.join(OUTPUT, '.opencode', 'plugins', 'session-init.js')),
+      'session-init.js copied');
+    assert.ok(fs.existsSync(path.join(OUTPUT, '.opencode', 'plugins', 'knowledge-tracker.js')),
+      'knowledge-tracker.js copied');
+    assert.ok(fs.existsSync(path.join(OUTPUT, '.opencode', 'plugins', 'protect-memory.js')),
+      'protect-memory.js copied');
+    assert.ok(fs.existsSync(path.join(OUTPUT, '.opencode', 'package.json')),
+      '.opencode/package.json copied');
+    cleanup();
+  });
+
+  it('has opencode.json when template provides it', () => {
+    if (!fs.existsSync(path.join(TEMPLATE, 'opencode.json'))) return;
+
+    run(OUTPUT);
+    const parsed = JSON.parse(fs.readFileSync(path.join(OUTPUT, 'opencode.json'), 'utf8'));
+    assert.ok(parsed.instructions, 'instructions key exists');
+    assert.ok(parsed.instructions.includes('CLAUDE.md'), 'instructions includes CLAUDE.md');
+    cleanup();
+  });
+
   it('passes validate-consistency.sh when template provides it', () => {
     if (!fs.existsSync(path.join(TEMPLATE, 'scripts/validate-consistency.sh'))) return;
 
