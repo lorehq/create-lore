@@ -33,6 +33,10 @@ git add -A && git commit -m "Init Lore"
 
 Then open Claude Code in the project. The hooks will fire automatically and the self-learning loop begins.
 
+## Docs
+
+Full documentation: [lorehq.github.io/lore-docs](https://lorehq.github.io/lore-docs/)
+
 ## License
 
 Apache-2.0
