@@ -98,7 +98,7 @@ describe('create-lore', () => {
     run(OUTPUT);
     const parsed = JSON.parse(fs.readFileSync(path.join(OUTPUT, 'opencode.json'), 'utf8'));
     assert.ok(parsed.instructions, 'instructions key exists');
-    assert.ok(parsed.instructions.includes('CLAUDE.md'), 'instructions includes CLAUDE.md');
+    assert.ok(parsed.instructions.includes('.lore/instructions.md'), 'instructions includes .lore/instructions.md');
     cleanup();
   });
 
