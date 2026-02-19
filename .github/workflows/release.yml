@@ -1,0 +1,73 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        node-version: [18, 20]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: lorehq/lore
+          ref: ${{ github.ref_name }}
+          path: lore
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm test
+        env:
+          LORE_TEMPLATE: ${{ github.workspace }}/lore
+
+  verify-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify tag matches package.json version
+        run: |
+          tag="${GITHUB_REF#refs/tags/v}"
+          pkg="$(node -p "require('./package.json').version")"
+          if [[ "$tag" != "$pkg" ]]; then
+            echo "::error::Tag v$tag does not match package.json version $pkg"
+            exit 1
+          fi
+          echo "Tag v$tag matches package.json"
+      - name: Verify matching lore tag exists
+        run: |
+          tag="${GITHUB_REF#refs/tags/}"
+          if ! git ls-remote --tags https://github.com/lorehq/lore.git "refs/tags/$tag" | grep -q "$tag"; then
+            echo "::error::lorehq/lore does not have tag $tag — tag lore first"
+            exit 1
+          fi
+          echo "lorehq/lore has matching tag $tag"
+
+  publish:
+    needs: [test, verify-tag]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+      - name: Publish to npm
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="${GITHUB_REF#refs/tags/}"
+          gh release create "$tag" \
+            --title "$tag" \
+            --generate-notes
