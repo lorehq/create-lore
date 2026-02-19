@@ -29,6 +29,18 @@ describe('create-lore', () => {
   before(cleanup);
   after(cleanup);
 
+  it('--help shows usage text', () => {
+    const output = run('--help');
+    assert.ok(output.includes('Usage:'), 'shows usage');
+    assert.ok(output.includes('create-lore'), 'mentions create-lore');
+  });
+
+  it('--version outputs package.json version', () => {
+    const output = run('--version');
+    const pkg = require('../package.json');
+    assert.equal(output.trim(), pkg.version);
+  });
+
   it('exits with error when no name given', () => {
     assert.throws(() => run(''), { status: 1 });
   });

@@ -18,9 +18,25 @@ const fs = require('fs');
 const path = require('path');
 
 const REPO_URL = 'https://github.com/lorehq/lore.git';
+const pkg = require('../package.json');
 
 // -- Parse arguments --
-const name = process.argv[2];
+const arg = process.argv[2];
+if (arg === '--help' || arg === '-h') {
+  console.log(`create-lore v${pkg.version}\n`);
+  console.log('Usage: create-lore <name|path>\n');
+  console.log('Bootstrap a new Lore knowledge-persistent agent repo.\n');
+  console.log('Examples:');
+  console.log('  npx create-lore myproject       # creates ./myproject/');
+  console.log('  npx create-lore ./custom-path   # creates at specific path');
+  process.exit(0);
+}
+if (arg === '--version' || arg === '-v') {
+  console.log(pkg.version);
+  process.exit(0);
+}
+
+const name = arg;
 if (!name) {
   console.error('Usage: create-lore <name>');
   process.exit(1);
@@ -45,7 +61,7 @@ try {
   if (templateDir) {
     fs.cpSync(templateDir, tmpDir, { recursive: true });
   } else {
-    execSync(`git clone --depth 1 ${REPO_URL} "${tmpDir}"`, { stdio: 'pipe' });
+    execSync(`git clone --depth 1 --branch v${pkg.version} ${REPO_URL} "${tmpDir}"`, { stdio: 'pipe' });
   }
   fs.rmSync(path.join(tmpDir, '.git'), { recursive: true, force: true });
   fs.cpSync(tmpDir, targetDir, { recursive: true });

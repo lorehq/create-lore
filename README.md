@@ -8,7 +8,7 @@ Create a new [Lore](https://github.com/lorehq/lore) knowledge-persistent AI codi
 npx create-lore myproject
 ```
 
-This creates `lore-myproject/` with the full Lore framework — hooks, skills, scripts, and operating instructions that teach your coding agent to learn and remember across sessions.
+This creates `myproject/` with the full Lore framework — hooks, skills, scripts, and operating instructions that teach your coding agent to learn and remember across sessions.
 
 ## What you get
 
@@ -20,7 +20,7 @@ This creates `lore-myproject/` with the full Lore framework — hooks, skills, s
 ## Supported platforms
 
 - **Claude Code** — `hooks/` + `CLAUDE.md`
-- **Cursor** — `.cursor/hooks/` + `.cursorrules`
+- **Cursor** — `.cursor/hooks/` + `.cursor/rules/`
 - **OpenCode** — `.opencode/plugins/` + `opencode.json`
 
 All platforms share the same knowledge base. No configuration needed.
@@ -28,14 +28,14 @@ All platforms share the same knowledge base. No configuration needed.
 ## Options
 
 ```bash
-npx create-lore myproject       # creates ./lore-myproject/
+npx create-lore myproject       # creates ./myproject/
 npx create-lore ./custom-path   # creates at specific path
 ```
 
 ## After setup
 
 ```bash
-cd lore-myproject
+cd myproject
 git add -A && git commit -m "Init Lore"
 ```
 
