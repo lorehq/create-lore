@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 
 const BIN = path.resolve(__dirname, '../bin/create-lore.js');
-const TEMPLATE = path.resolve(__dirname, '../../lore'); // Sibling lore repo
+const TEMPLATE = process.env.LORE_TEMPLATE || path.resolve(__dirname, '../../lore');
 const OUTPUT = path.resolve(__dirname, '../test-output');
 
 // Run the installer with LORE_TEMPLATE pointing at the local template
