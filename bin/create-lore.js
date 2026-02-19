@@ -47,6 +47,17 @@ if (!name) {
 const isPath = name.includes('/') || name.includes(path.sep);
 const targetDir = path.resolve(isPath ? name : `./${name}`);
 
+// Validate every segment of the resolved path's tail (the parts the user controls).
+// For simple names, validate the name directly. For paths, validate the basename.
+// This prevents shell-hostile characters like ; | & $ ` from sneaking through.
+const segmentPattern = /^[a-zA-Z0-9._-]+$/;
+const finalName = path.basename(targetDir);
+if (!segmentPattern.test(finalName)) {
+  console.error(`Error: Invalid project name '${finalName}'`);
+  console.error('Names may contain letters, numbers, dots, hyphens, and underscores.');
+  process.exit(1);
+}
+
 if (fs.existsSync(targetDir)) {
   console.error(`Error: ${targetDir} already exists`);
   process.exit(1);
@@ -89,7 +100,12 @@ try {
 // -- Write .lore-config --
 const projectName = isPath ? path.basename(targetDir) : name;
 // Read version from the template's .lore-config so instances track their source version
-const templateConfig = JSON.parse(fs.readFileSync(path.join(targetDir, '.lore-config'), 'utf8'));
+let templateConfig;
+try {
+  templateConfig = JSON.parse(fs.readFileSync(path.join(targetDir, '.lore-config'), 'utf8'));
+} catch (e) {
+  templateConfig = {};
+}
 const config = {
   name: projectName,
   version: templateConfig.version || '0.0.0',

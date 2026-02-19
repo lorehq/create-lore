@@ -14,8 +14,8 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         node-version: [18, 20]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4  # checkout create-lore (this repo)
+      - uses: actions/checkout@v4  # checkout lore template (used as LORE_TEMPLATE)
         with:
           repository: lorehq/lore
           path: lore

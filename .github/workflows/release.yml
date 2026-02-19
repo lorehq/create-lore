@@ -15,8 +15,8 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         node-version: [18, 20]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4  # checkout create-lore (this repo)
+      - uses: actions/checkout@v4  # checkout lore template at matching tag
         with:
           repository: lorehq/lore
           ref: ${{ github.ref_name }}

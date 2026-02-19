@@ -21,6 +21,15 @@ function run(args = '') {
   });
 }
 
+// Run with exact argv (no shell interpretation) — for testing shell metacharacters
+function runExact(name) {
+  return require('child_process').execFileSync('node', [BIN, name], {
+    env: { ...process.env, LORE_TEMPLATE: TEMPLATE },
+    stdio: 'pipe',
+    encoding: 'utf8',
+  });
+}
+
 function cleanup() {
   if (fs.existsSync(OUTPUT)) fs.rmSync(OUTPUT, { recursive: true });
 }
@@ -65,6 +74,17 @@ describe('create-lore', () => {
     fs.mkdirSync(OUTPUT, { recursive: true });
     assert.throws(() => run(OUTPUT), /already exists/);
     fs.rmSync(OUTPUT, { recursive: true });
+  });
+
+  it('rejects names with shell metacharacters', () => {
+    assert.throws(() => runExact('foo;echo pwned'), /Invalid project name/);
+    assert.throws(() => runExact('foo$(cmd)'), /Invalid project name/);
+    assert.throws(() => runExact('foo|bar'), /Invalid project name/);
+  });
+
+  it('rejects path arguments with shell metacharacters in basename', () => {
+    assert.throws(() => runExact('./foo;rm'), /Invalid project name/);
+    assert.throws(() => runExact('/tmp/bad$(cmd)'), /Invalid project name/);
   });
 
   // -- Template content tests --
