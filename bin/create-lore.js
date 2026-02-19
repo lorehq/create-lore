@@ -61,7 +61,23 @@ try {
   if (templateDir) {
     fs.cpSync(templateDir, tmpDir, { recursive: true });
   } else {
-    execSync(`git clone --depth 1 --branch v${pkg.version} ${REPO_URL} "${tmpDir}"`, { stdio: 'pipe' });
+    try {
+      execSync(`git clone --depth 1 --branch v${pkg.version} ${REPO_URL} "${tmpDir}"`, { stdio: 'pipe' });
+    } catch (err) {
+      const stderr = err.stderr ? err.stderr.toString() : '';
+      if (stderr.includes('not found') || stderr.includes('not a valid')) {
+        console.error(`Error: Version tag v${pkg.version} not found in ${REPO_URL}`);
+        console.error('This usually means the release tag is missing. Try:');
+        console.error('  npx create-lore@latest ' + name);
+      } else if (stderr.includes('Could not resolve host') || stderr.includes('unable to access')) {
+        console.error('Error: Cannot reach github.com');
+        console.error('Check your internet connection, DNS, and firewall/proxy settings.');
+      } else {
+        console.error('Error: Failed to clone template from GitHub');
+        console.error(stderr.trim() || err.message);
+      }
+      process.exit(1);
+    }
   }
   fs.rmSync(path.join(tmpDir, '.git'), { recursive: true, force: true });
   fs.cpSync(tmpDir, targetDir, { recursive: true });

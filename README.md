@@ -1,45 +1,53 @@
 # create-lore
 
-Create a new [Lore](https://github.com/lorehq/lore) knowledge-persistent AI coding agent repo.
+Bootstrap a new [Lore](https://github.com/lorehq/lore) project — persistent memory for AI coding agents.
 
-## Usage
+## The Problem
+
+AI coding agents (Claude Code, Cursor, OpenCode) forget everything between sessions. Every session you re-explain project structure, re-discover API quirks, and repeat lessons learned yesterday. Lore fixes that.
+
+## What Lore Does
+
+Lore wraps your coding agent in a git-versioned knowledge base. Hooks fire automatically to reinforce knowledge capture as you work. Gotchas become skills, skills get agents, and every future session starts with what previous sessions learned.
+
+- **Skills** — API quirks, auth gotchas, encoding tricks. Captured once, loaded forever.
+- **Knowledge docs** — Environment details, runbooks, architecture decisions. Accumulated across sessions.
+- **Work tracking** — Roadmaps, plans, and brainstorms that persist and appear in every session banner.
+- **Hooks** — Session init, capture reminders, memory protection. All automatic.
+
+## Quick Start
 
 ```bash
-npx create-lore myproject
+npx create-lore my-project
+cd my-project
+git add -A && git commit -m "Init Lore"
 ```
 
-This creates `myproject/` with the full Lore framework — hooks, skills, scripts, and operating instructions that teach your coding agent to learn and remember across sessions.
+Then open the project in your agent. Hooks fire automatically.
 
-## What you get
+## Supported Platforms
 
-- **Instructions** — Operating instructions loaded automatically by each platform
-- **Hooks** — Session init, memory guard, post-action capture reminders
-- **Skills** — `create-skill` and `create-agent` for building your knowledge base
-- **Scripts** — Registry generation, agent generation, consistency validation
-
-## Supported platforms
-
-- **Claude Code** — `hooks/` + `CLAUDE.md`
-- **Cursor** — `.cursor/hooks/` + `.cursor/rules/`
-- **OpenCode** — `.opencode/plugins/` + `opencode.json`
+| Platform | Integration |
+|----------|-------------|
+| Claude Code | `hooks/` + `CLAUDE.md` |
+| Cursor | `.cursor/hooks/` + `.cursor/rules/` |
+| OpenCode | `.opencode/plugins/` + `opencode.json` |
 
 All platforms share the same knowledge base. No configuration needed.
 
 ## Options
 
 ```bash
-npx create-lore myproject       # creates ./myproject/
-npx create-lore ./custom-path   # creates at specific path
+npx create-lore my-project       # creates ./my-project/
+npx create-lore ./custom-path    # creates at specific path
+npx create-lore --help           # show usage
+npx create-lore --version        # show version
 ```
 
-## After setup
+## Requirements
 
-```bash
-cd myproject
-git add -A && git commit -m "Init Lore"
-```
-
-Then open the project in your agent. Hooks fire automatically and the self-learning loop begins.
+- Node.js 18+
+- git
 
 ## Docs
 
