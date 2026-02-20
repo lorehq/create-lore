@@ -6,7 +6,9 @@
     "create-lore": "bin/create-lore.js"
   },
   "scripts": {
-    "test": "node --test test/create-lore.test.js"
+    "test": "node --test test/create-lore.test.js",
+    "lint": "eslint .",
+    "format:check": "prettier --check ."
   },
   "keywords": [
     "lore",
@@ -17,5 +19,10 @@
   "license": "Apache-2.0",
   "engines": {
     "node": ">=18"
+  },
+  "devDependencies": {
+    "eslint": "^10.0.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.1"
   }
 }

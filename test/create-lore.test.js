@@ -113,14 +113,16 @@ describe('create-lore', () => {
     if (!fs.existsSync(path.join(TEMPLATE, '.opencode/plugins'))) return;
 
     run(OUTPUT);
-    assert.ok(fs.existsSync(path.join(OUTPUT, '.opencode', 'plugins', 'session-init.js')),
-      'session-init.js copied');
-    assert.ok(fs.existsSync(path.join(OUTPUT, '.opencode', 'plugins', 'knowledge-tracker.js')),
-      'knowledge-tracker.js copied');
-    assert.ok(fs.existsSync(path.join(OUTPUT, '.opencode', 'plugins', 'protect-memory.js')),
-      'protect-memory.js copied');
-    assert.ok(fs.existsSync(path.join(OUTPUT, '.opencode', 'package.json')),
-      '.opencode/package.json copied');
+    assert.ok(fs.existsSync(path.join(OUTPUT, '.opencode', 'plugins', 'session-init.js')), 'session-init.js copied');
+    assert.ok(
+      fs.existsSync(path.join(OUTPUT, '.opencode', 'plugins', 'knowledge-tracker.js')),
+      'knowledge-tracker.js copied',
+    );
+    assert.ok(
+      fs.existsSync(path.join(OUTPUT, '.opencode', 'plugins', 'protect-memory.js')),
+      'protect-memory.js copied',
+    );
+    assert.ok(fs.existsSync(path.join(OUTPUT, '.opencode', 'package.json')), '.opencode/package.json copied');
     cleanup();
   });
 

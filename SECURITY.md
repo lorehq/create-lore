@@ -20,5 +20,5 @@ We will acknowledge receipt within 48 hours and provide a timeline for a fix.
 ## Supported Versions
 
 | Version | Supported |
-|---------|-----------|
+| ------- | --------- |
 | 0.9.x   | Yes       |

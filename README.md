@@ -27,11 +27,11 @@ Then open the project in your agent. Hooks fire automatically.
 
 ## Supported Platforms
 
-| Platform | Integration |
-|----------|-------------|
-| Claude Code | `hooks/` + `CLAUDE.md` |
-| Cursor | `.cursor/hooks/` + `.cursor/mcp/` + `.cursor/rules/` |
-| OpenCode | `.opencode/plugins/` + `opencode.json` |
+| Platform    | Integration                                          |
+| ----------- | ---------------------------------------------------- |
+| Claude Code | `hooks/` + `CLAUDE.md`                               |
+| Cursor      | `.cursor/hooks/` + `.cursor/mcp/` + `.cursor/rules/` |
+| OpenCode    | `.opencode/plugins/` + `opencode.json`               |
 
 All platforms share the same knowledge base. No configuration needed.
 
