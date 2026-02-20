@@ -1,6 +1,7 @@
 const prettier = require('eslint-config-prettier');
 
 module.exports = [
+  { ignores: ['lore/'] },
   {
     files: ['**/*.js'],
     languageOptions: {
