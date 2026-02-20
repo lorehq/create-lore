@@ -8,7 +8,7 @@ AI coding agents (Claude Code, Cursor, OpenCode) forget everything between sessi
 
 ## What Lore Does
 
-Lore wraps your coding agent in a git-versioned knowledge base. Hooks fire automatically to reinforce knowledge capture as you work. Gotchas become skills, skills get agents, and every future session starts with what previous sessions learned.
+Lore wraps your coding agent in a git-versioned knowledge base. Hooks fire automatically to reinforce knowledge capture as you work. Gotchas become skills, and every future session starts with what previous sessions learned. Complex work delegates to focused workers loaded with curated skills.
 
 - **Skills** — API quirks, auth gotchas, encoding tricks. Captured once, loaded forever.
 - **Knowledge docs** — Environment details, runbooks, architecture decisions. Accumulated across sessions.
@@ -30,7 +30,7 @@ Then open the project in your agent. Hooks fire automatically.
 | Platform | Integration |
 |----------|-------------|
 | Claude Code | `hooks/` + `CLAUDE.md` |
-| Cursor | `.cursor/hooks/` + `.cursor/rules/` |
+| Cursor | `.cursor/hooks/` + `.cursor/mcp/` + `.cursor/rules/` |
 | OpenCode | `.opencode/plugins/` + `opencode.json` |
 
 All platforms share the same knowledge base. No configuration needed.

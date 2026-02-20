@@ -1,6 +1,6 @@
 {
   "name": "create-lore",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "description": "Create a new Lore knowledge-persistent agent repo",
   "bin": {
     "create-lore": "bin/create-lore.js"
