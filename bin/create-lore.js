@@ -58,6 +58,14 @@ if (!segmentPattern.test(finalName)) {
   process.exit(1);
 }
 
+// Guard against path traversal — resolved target must be under cwd
+const cwd = process.cwd();
+if (!targetDir.startsWith(cwd + path.sep) && targetDir !== cwd) {
+  console.error(`Error: Target directory '${targetDir}' is outside the current working directory.`);
+  console.error('Use a relative name or path within the current directory.');
+  process.exit(1);
+}
+
 if (fs.existsSync(targetDir)) {
   console.error(`Error: ${targetDir} already exists`);
   process.exit(1);
