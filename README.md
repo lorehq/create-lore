@@ -14,6 +14,7 @@ Lore wraps your coding agent in a git-versioned knowledge base. Hooks fire autom
 - **Knowledge docs** — Environment details, runbooks, architecture decisions. Accumulated across sessions.
 - **Work tracking** — Roadmaps, plans, and brainstorms that persist and appear in every session banner.
 - **Hooks** — Session init, capture reminders, memory protection. All automatic.
+- **Docs UI & Semantic Search** — Run `/lore-docker` to start a local Docker sidecar. Gives agents semantic search over the full knowledge base and opens a live MkDocs site for browsing it visually. Falls back to Grep/Glob without Docker.
 
 ## Quick Start
 
@@ -27,11 +28,11 @@ Then open the project in your agent. Hooks fire automatically.
 
 ## Supported Platforms
 
-| Platform    | Integration                                          |
-| ----------- | ---------------------------------------------------- |
-| Claude Code | `hooks/` + `CLAUDE.md`                               |
-| Cursor      | `.cursor/hooks/` + `.cursor/mcp/` + `.cursor/rules/` |
-| OpenCode    | `.opencode/plugins/` + `opencode.json`               |
+| Platform    | Integration                                                  |
+| ----------- | ------------------------------------------------------------ |
+| Claude Code | `.lore/hooks/` + `CLAUDE.md`                                 |
+| Cursor      | `.lore/hooks/` + `.cursor/hooks/` + `.cursor/mcp/` + `.cursor/rules/` |
+| OpenCode    | `.opencode/plugins/` + `opencode.json`                       |
 
 All platforms share the same knowledge base. No configuration needed.
 
