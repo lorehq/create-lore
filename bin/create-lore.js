@@ -106,7 +106,7 @@ try {
     'docs/assets', 'docs/javascripts', 'docs/stylesheets',
     'CODE_OF_CONDUCT.md', 'CONTRIBUTING.md', 'SECURITY.md',
     'LICENSE', 'README.md', '.prettierrc', '.prettierignore',
-    'eslint.config.js', 'package-lock.json',
+    'eslint.config.js', 'package.json', 'package-lock.json',
   ];
   for (const name of devOnly) {
     const p = path.join(tmpDir, name);
