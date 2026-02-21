@@ -4,7 +4,7 @@
 
 const { describe, it, before, after } = require('node:test');
 const assert = require('node:assert/strict');
-const { execSync } = require('child_process');
+const { execSync, execFileSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -14,7 +14,7 @@ const OUTPUT = path.resolve(__dirname, '../test-output');
 
 // Run the installer with LORE_TEMPLATE pointing at the local template
 function run(args = '') {
-  return execSync(`node ${BIN} ${args}`, {
+  return execFileSync('node', [BIN, ...args.split(' ').filter(Boolean)], {
     env: { ...process.env, LORE_TEMPLATE: TEMPLATE },
     stdio: 'pipe',
     encoding: 'utf8',
@@ -23,7 +23,7 @@ function run(args = '') {
 
 // Run with exact argv (no shell interpretation) — for testing shell metacharacters
 function runExact(name) {
-  return require('child_process').execFileSync('node', [BIN, name], {
+  return execFileSync('node', [BIN, name], {
     env: { ...process.env, LORE_TEMPLATE: TEMPLATE },
     stdio: 'pipe',
     encoding: 'utf8',
@@ -59,8 +59,9 @@ describe('create-lore', () => {
 
     assert.ok(fs.existsSync(OUTPUT), 'output directory exists');
 
-    // .lore/config.json has required fields
-    const config = JSON.parse(fs.readFileSync(path.join(OUTPUT, '.lore', 'config.json'), 'utf8'));
+    // .lore/config.json has required fields (JSONC — strip comments before parsing)
+    const raw = fs.readFileSync(path.join(OUTPUT, '.lore', 'config.json'), 'utf8');
+    const config = JSON.parse(raw.replace(/^\s*\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '').replace(/,(\s*[}\]])/g, '$1'));
     assert.ok(config.name, 'name present');
     assert.ok(config.created, 'created date present');
 

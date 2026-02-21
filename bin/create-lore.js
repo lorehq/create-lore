@@ -100,18 +100,19 @@ try {
   }
   fs.rmSync(path.join(tmpDir, '.git'), { recursive: true, force: true });
 
-  // Strip dev-only files that aren't needed in instances
-  const devOnly = [
-    'test', '.github', 'node_modules', 'site',
-    'docs/assets', 'docs/javascripts', 'docs/stylesheets',
-    'CODE_OF_CONDUCT.md', 'CONTRIBUTING.md', 'SECURITY.md',
-    'LICENSE', 'README.md', '.prettierrc', '.prettierignore',
-    'eslint.config.js', 'package.json', 'package-lock.json',
-  ];
-  for (const name of devOnly) {
-    const p = path.join(tmpDir, name);
-    if (fs.existsSync(p)) fs.rmSync(p, { recursive: true, force: true });
+  // Only keep files needed in instances — remove everything else
+  const keep = new Set([
+    '.lore', '.claude', '.cursor', '.opencode',
+    'docs', 'CLAUDE.md', 'opencode.json',
+    '.gitattributes', '.gitignore',
+  ]);
+  for (const entry of fs.readdirSync(tmpDir)) {
+    if (!keep.has(entry)) {
+      fs.rmSync(path.join(tmpDir, entry), { recursive: true, force: true });
+    }
   }
+
+
 
   fs.cpSync(tmpDir, targetDir, { recursive: true });
 } finally {
@@ -121,19 +122,42 @@ try {
 
 // -- Write .lore/config.json --
 const projectName = isPath ? path.basename(targetDir) : name;
-// Read version from the template's .lore/config.json so instances track their source version
+// Read version from the copied config.json, then rewrite from template
 let templateConfig;
 try {
   templateConfig = JSON.parse(fs.readFileSync(path.join(targetDir, '.lore', 'config.json'), 'utf8'));
 } catch (e) {
   templateConfig = {};
 }
-const config = {
-  name: projectName,
-  version: templateConfig.version || '0.0.0',
-  created: new Date().toISOString().split('T')[0],
-};
-fs.writeFileSync(path.join(targetDir, '.lore', 'config.json'), JSON.stringify(config, null, 2) + '\n');
+const templateVersion = templateConfig.version || '0.0.0';
+const createdDate = new Date().toISOString().split('T')[0];
+const configTemplate = fs.readFileSync(path.join(targetDir, '.lore', 'templates', 'config.json'), 'utf8');
+const configContent = configTemplate
+  .replace('{{name}}', projectName)
+  .replace('{{version}}', templateVersion)
+  .replace('{{created}}', createdDate);
+fs.writeFileSync(path.join(targetDir, '.lore', 'config.json'), configContent);
+
+// -- Create gitignored files from templates --
+// Templates are already in targetDir (copied from the template clone via .lore/).
+// These are normally recreated by ensureStickyFiles() each session, but the
+// installer should produce a complete instance from the start.
+const tplDir = path.join(targetDir, '.lore', 'templates');
+const localDir = path.join(targetDir, 'docs', 'knowledge', 'local');
+fs.mkdirSync(localDir, { recursive: true });
+
+fs.writeFileSync(
+  path.join(localDir, 'index.md'),
+  fs.readFileSync(path.join(tplDir, 'local-index.md'), 'utf8')
+);
+fs.writeFileSync(
+  path.join(localDir, 'operator-profile.md'),
+  fs.readFileSync(path.join(tplDir, 'operator-profile.md'), 'utf8')
+);
+fs.writeFileSync(
+  path.join(targetDir, '.lore', 'memory.local.md'),
+  fs.readFileSync(path.join(tplDir, 'memory-local.md'), 'utf8')
+);
 
 // -- Initialize git --
 execSync('git init -b main', { cwd: targetDir, stdio: 'pipe' });
