@@ -7,7 +7,7 @@
 // How it works:
 //   1. Clones the Lore template from GitHub (or copies from LORE_TEMPLATE env var)
 //   2. Strips the template's .git history
-//   3. Writes a .lore-config with the project name and creation date
+//   3. Writes .lore/config.json with the project name and creation date
 //   4. Runs git init for a clean start
 //
 // The LORE_TEMPLATE env var is used by tests to point at a local template
@@ -99,18 +99,32 @@ try {
     }
   }
   fs.rmSync(path.join(tmpDir, '.git'), { recursive: true, force: true });
+
+  // Strip dev-only files that aren't needed in instances
+  const devOnly = [
+    'test', '.github', 'node_modules', 'site',
+    'docs/assets', 'docs/javascripts', 'docs/stylesheets',
+    'CODE_OF_CONDUCT.md', 'CONTRIBUTING.md', 'SECURITY.md',
+    'LICENSE', 'README.md', '.prettierrc', '.prettierignore',
+    'eslint.config.js', 'package-lock.json',
+  ];
+  for (const name of devOnly) {
+    const p = path.join(tmpDir, name);
+    if (fs.existsSync(p)) fs.rmSync(p, { recursive: true, force: true });
+  }
+
   fs.cpSync(tmpDir, targetDir, { recursive: true });
 } finally {
   // Always clean up the temp dir
   if (fs.existsSync(tmpDir)) fs.rmSync(tmpDir, { recursive: true });
 }
 
-// -- Write .lore-config --
+// -- Write .lore/config.json --
 const projectName = isPath ? path.basename(targetDir) : name;
-// Read version from the template's .lore-config so instances track their source version
+// Read version from the template's .lore/config.json so instances track their source version
 let templateConfig;
 try {
-  templateConfig = JSON.parse(fs.readFileSync(path.join(targetDir, '.lore-config'), 'utf8'));
+  templateConfig = JSON.parse(fs.readFileSync(path.join(targetDir, '.lore', 'config.json'), 'utf8'));
 } catch (e) {
   templateConfig = {};
 }
@@ -119,7 +133,7 @@ const config = {
   version: templateConfig.version || '0.0.0',
   created: new Date().toISOString().split('T')[0],
 };
-fs.writeFileSync(path.join(targetDir, '.lore-config'), JSON.stringify(config, null, 2) + '\n');
+fs.writeFileSync(path.join(targetDir, '.lore', 'config.json'), JSON.stringify(config, null, 2) + '\n');
 
 // -- Initialize git --
 execSync('git init -b main', { cwd: targetDir, stdio: 'pipe' });

@@ -59,8 +59,8 @@ describe('create-lore', () => {
 
     assert.ok(fs.existsSync(OUTPUT), 'output directory exists');
 
-    // .lore-config has required fields
-    const config = JSON.parse(fs.readFileSync(path.join(OUTPUT, '.lore-config'), 'utf8'));
+    // .lore/config.json has required fields
+    const config = JSON.parse(fs.readFileSync(path.join(OUTPUT, '.lore', 'config.json'), 'utf8'));
     assert.ok(config.name, 'name present');
     assert.ok(config.created, 'created date present');
 
@@ -68,6 +68,23 @@ describe('create-lore', () => {
     assert.ok(fs.existsSync(path.join(OUTPUT, '.git')), 'git initialized');
     const entries = fs.readdirSync(path.join(OUTPUT, '.git'));
     assert.ok(entries.includes('HEAD'), '.git looks like a fresh init');
+  });
+
+  it('strips dev-only files from scaffolded instance', () => {
+    cleanup();
+    run(OUTPUT);
+
+    const devOnly = [
+      'test', '.github', 'node_modules', 'site',
+      'docs/assets', 'docs/javascripts', 'docs/stylesheets',
+      'CODE_OF_CONDUCT.md', 'CONTRIBUTING.md', 'SECURITY.md',
+      'LICENSE', 'README.md', '.prettierrc', '.prettierignore',
+      'eslint.config.js', 'package-lock.json',
+    ];
+    for (const name of devOnly) {
+      assert.ok(!fs.existsSync(path.join(OUTPUT, name)), `${name} should be stripped`);
+    }
+    cleanup();
   });
 
   it('fails if target directory already exists', () => {
@@ -137,10 +154,10 @@ describe('create-lore', () => {
   });
 
   it('passes validate-consistency.sh when template provides it', () => {
-    if (!fs.existsSync(path.join(TEMPLATE, 'scripts/validate-consistency.sh'))) return;
+    if (!fs.existsSync(path.join(TEMPLATE, '.lore/scripts/validate-consistency.sh'))) return;
 
     run(OUTPUT);
-    const result = execSync('bash scripts/validate-consistency.sh', {
+    const result = execSync('bash .lore/scripts/validate-consistency.sh', {
       cwd: OUTPUT,
       encoding: 'utf8',
       stdio: 'pipe',
