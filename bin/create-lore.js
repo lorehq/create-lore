@@ -102,17 +102,21 @@ try {
 
   // Only keep files needed in instances — remove everything else
   const keep = new Set([
-    '.lore', '.claude', '.cursor', '.opencode',
-    'docs', 'CLAUDE.md', 'opencode.json',
-    '.gitattributes', '.gitignore',
+    '.lore',
+    '.claude',
+    '.cursor',
+    '.opencode',
+    'docs',
+    'CLAUDE.md',
+    'opencode.json',
+    '.gitattributes',
+    '.gitignore',
   ]);
   for (const entry of fs.readdirSync(tmpDir)) {
     if (!keep.has(entry)) {
       fs.rmSync(path.join(tmpDir, entry), { recursive: true, force: true });
     }
   }
-
-
 
   fs.cpSync(tmpDir, targetDir, { recursive: true });
 } finally {
@@ -126,7 +130,7 @@ const projectName = isPath ? path.basename(targetDir) : name;
 let templateConfig;
 try {
   templateConfig = JSON.parse(fs.readFileSync(path.join(targetDir, '.lore', 'config.json'), 'utf8'));
-} catch (e) {
+} catch {
   templateConfig = {};
 }
 const templateVersion = templateConfig.version || '0.0.0';
@@ -146,17 +150,14 @@ const tplDir = path.join(targetDir, '.lore', 'templates');
 const localDir = path.join(targetDir, 'docs', 'knowledge', 'local');
 fs.mkdirSync(localDir, { recursive: true });
 
-fs.writeFileSync(
-  path.join(localDir, 'index.md'),
-  fs.readFileSync(path.join(tplDir, 'local-index.md'), 'utf8')
-);
+fs.writeFileSync(path.join(localDir, 'index.md'), fs.readFileSync(path.join(tplDir, 'local-index.md'), 'utf8'));
 fs.writeFileSync(
   path.join(localDir, 'operator-profile.md'),
-  fs.readFileSync(path.join(tplDir, 'operator-profile.md'), 'utf8')
+  fs.readFileSync(path.join(tplDir, 'operator-profile.md'), 'utf8'),
 );
 fs.writeFileSync(
   path.join(targetDir, '.lore', 'memory.local.md'),
-  fs.readFileSync(path.join(tplDir, 'memory-local.md'), 'utf8')
+  fs.readFileSync(path.join(tplDir, 'memory-local.md'), 'utf8'),
 );
 
 // -- Initialize git --

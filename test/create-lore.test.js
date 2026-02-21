@@ -61,7 +61,12 @@ describe('create-lore', () => {
 
     // .lore/config.json has required fields (JSONC — strip comments before parsing)
     const raw = fs.readFileSync(path.join(OUTPUT, '.lore', 'config.json'), 'utf8');
-    const config = JSON.parse(raw.replace(/^\s*\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '').replace(/,(\s*[}\]])/g, '$1'));
+    const config = JSON.parse(
+      raw
+        .replace(/^\s*\/\/.*$/gm, '')
+        .replace(/\/\*[\s\S]*?\*\//g, '')
+        .replace(/,(\s*[}\]])/g, '$1'),
+    );
     assert.ok(config.name, 'name present');
     assert.ok(config.created, 'created date present');
 
@@ -76,11 +81,22 @@ describe('create-lore', () => {
     run(OUTPUT);
 
     const devOnly = [
-      'test', '.github', 'node_modules', 'site',
-      'docs/assets', 'docs/javascripts', 'docs/stylesheets',
-      'CODE_OF_CONDUCT.md', 'CONTRIBUTING.md', 'SECURITY.md',
-      'LICENSE', 'README.md', '.prettierrc', '.prettierignore',
-      'eslint.config.js', 'package-lock.json',
+      'test',
+      '.github',
+      'node_modules',
+      'site',
+      'docs/assets',
+      'docs/javascripts',
+      'docs/stylesheets',
+      'CODE_OF_CONDUCT.md',
+      'CONTRIBUTING.md',
+      'SECURITY.md',
+      'LICENSE',
+      'README.md',
+      '.prettierrc',
+      '.prettierignore',
+      'eslint.config.js',
+      'package-lock.json',
     ];
     for (const name of devOnly) {
       assert.ok(!fs.existsSync(path.join(OUTPUT, name)), `${name} should be stripped`);
