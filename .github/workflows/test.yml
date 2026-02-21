@@ -52,4 +52,4 @@ jobs:
         run: |
           node bin/create-lore.js test-project
           cd test-project
-          bash scripts/validate-consistency.sh
+          bash .lore/scripts/validate-consistency.sh
