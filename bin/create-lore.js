@@ -109,6 +109,7 @@ try {
     'docs',
     'CLAUDE.md',
     'opencode.json',
+    '.mcp.json',
     '.gitattributes',
     '.gitignore',
   ]);
