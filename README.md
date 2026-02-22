@@ -14,7 +14,7 @@ Lore wraps your coding agent in a git-versioned knowledge base. Hooks fire autom
 - **Knowledge docs** — Environment details, runbooks, architecture decisions. Accumulated across sessions.
 - **Work tracking** — Roadmaps, plans, and brainstorms that persist and appear in every session banner.
 - **Hooks** — Session init, capture reminders, memory protection. All automatic.
-- **Docs UI & Semantic Search** — Run `/lore-docker` to start a local Docker sidecar. Gives agents semantic search over the full knowledge base and opens a live MkDocs site for browsing it visually. Falls back to Grep/Glob without Docker.
+- **Docs UI & Semantic Search** — Run `/lore-docker` to start a local Docker sidecar. Gives agents semantic search over the full knowledge base and opens a live MkDocs site for browsing it visually. Falls back to Grep/Glob without Docker — works for small knowledge bases, degrades as docs grow.
 
 ## Quick Start
 
@@ -49,6 +49,7 @@ npx create-lore --version        # show version
 
 - Node.js 18+
 - git
+- Docker (highly recommended — enables semantic search and docs UI; not required)
 
 ## Docs
 
