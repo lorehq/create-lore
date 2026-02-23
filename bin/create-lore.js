@@ -161,6 +161,13 @@ fs.writeFileSync(
   fs.readFileSync(path.join(tplDir, 'memory-local.md'), 'utf8'),
 );
 
+// -- Write .env for docker compose project naming --
+// docker compose reads .env from the project directory (where the command runs),
+// not from the directory containing the compose file.
+const envContent = fs.readFileSync(path.join(tplDir, 'env.template'), 'utf8')
+  .replace('{{name}}', projectName);
+fs.writeFileSync(path.join(targetDir, '.env'), envContent);
+
 // -- Initialize git --
 execSync('git init -b main', { cwd: targetDir, stdio: 'pipe' });
 
