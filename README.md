@@ -1,6 +1,6 @@
 # create-lore
 
-Bootstrap a new [Lore](https://github.com/lorehq/lore) project — persistent memory for AI coding agents.
+Scaffold a new [Lore](https://github.com/lorehq/lore) instance — a coding agent harness.
 
 ## The Problem
 
@@ -8,7 +8,7 @@ AI coding agents (Claude Code, Cursor, OpenCode) forget everything between sessi
 
 ## What Lore Does
 
-Lore wraps your coding agent in a git-versioned knowledge base. Hooks fire automatically to reinforce knowledge capture as you work. Gotchas become skills, and every future session starts with what previous sessions learned. Complex work delegates to focused workers loaded with curated skills.
+Lore is a harness that wraps your coding agent in a git-versioned knowledge base with convention enforcement, orchestrated delegation, and work tracking. Hooks fire automatically to reinforce knowledge capture as you work. Gotchas become skills, conventions are enforced at write-time, and complex work delegates to focused workers loaded with curated skills.
 
 - **Skills** — API quirks, auth gotchas, encoding tricks. Captured once, loaded forever.
 - **Knowledge docs** — Environment details, runbooks, architecture decisions. Accumulated across sessions.

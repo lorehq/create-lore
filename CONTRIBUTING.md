@@ -40,7 +40,7 @@ LORE_TEMPLATE=../lore npm test
 
 - Keep changes focused — one concern per PR
 - Match existing code style
-- For framework changes (hooks, skills, lib), contribute to [lorehq/lore](https://github.com/lorehq/lore) instead
+- For harness changes (hooks, skills, lib), contribute to [lorehq/lore](https://github.com/lorehq/lore) instead
 
 ## Reporting Issues
 

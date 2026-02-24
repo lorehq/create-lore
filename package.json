@@ -1,7 +1,7 @@
 {
   "name": "create-lore",
   "version": "0.12.6",
-  "description": "Create a new Lore knowledge-persistent agent repo",
+  "description": "Scaffold a new Lore coding agent harness",
   "bin": {
     "create-lore": "bin/create-lore.js"
   },
@@ -14,7 +14,8 @@
     "lore",
     "agent",
     "ai",
-    "knowledge"
+    "harness",
+    "coding-agent"
   ],
   "license": "Apache-2.0",
   "repository": {

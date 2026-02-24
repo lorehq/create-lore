@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// create-lore: Bootstrap a new Lore knowledge-persistent agent repo.
+// create-lore: Scaffold a new Lore coding agent harness.
 //
 // Usage: npx create-lore <name|path>
 //
@@ -25,7 +25,7 @@ const arg = process.argv[2];
 if (arg === '--help' || arg === '-h') {
   console.log(`create-lore v${pkg.version}\n`);
   console.log('Usage: create-lore <name|path>\n');
-  console.log('Bootstrap a new Lore knowledge-persistent agent repo.\n');
+  console.log('Scaffold a new Lore coding agent harness.\n');
   console.log('Examples:');
   console.log('  npx create-lore myproject       # creates ./myproject/');
   console.log('  npx create-lore ./custom-path   # creates at specific path');
