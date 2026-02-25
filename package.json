@@ -1,6 +1,6 @@
 {
   "name": "create-lore",
-  "version": "0.14.3",
+  "version": "0.14.4",
   "description": "Scaffold a new Lore coding agent harness",
   "bin": {
     "create-lore": "bin/create-lore.js"
