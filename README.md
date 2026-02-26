@@ -10,7 +10,7 @@ AI coding agents (Claude Code, Cursor, OpenCode) forget everything between sessi
 
 Lore is a harness that wraps your coding agent in a git-versioned knowledge base with rule enforcement, orchestrated delegation, and work tracking. Hooks fire automatically to reinforce knowledge capture as you work. Fieldnotes become skills, rules are enforced at write-time, and complex work delegates to focused workers loaded with curated skills.
 
-- **Skills** — API quirks, auth fieldnotes, encoding tricks. Captured once, loaded forever.
+- **Fieldnotes** — API quirks, auth quirks, encoding tricks. Captured once, loaded forever.
 - **Knowledge docs** — Environment details, runbooks, architecture decisions. Accumulated across sessions.
 - **Work tracking** — Roadmaps, plans, and brainstorms that persist and appear in every session banner.
 - **Hooks** — Session init, capture reminders, memory protection. All automatic.
